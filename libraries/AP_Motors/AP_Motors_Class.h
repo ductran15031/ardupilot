@@ -105,8 +105,12 @@ public:
     // enable - starts allowing signals to be sent to motors
     virtual void        enable() = 0;
 
-    // output - sends commands to the motors
-    virtual void        output() = 0;
+//------------------------------------------------------------------------------------------------------------------
+//modified by TRAN Trung Duc
+    virtual void        new_output(double *input) {};
+    int calibration;
+    int level_pwm;
+//------------------------------------------------------------------------------------------------------------------    
 
     // output_min - sends minimum values out to the motors
     virtual void        output_min() = 0;
@@ -123,11 +127,16 @@ public:
     // get_motor_mask - returns a bitmask of which outputs are being used for motors (1 means being used)
     //  this can be used to ensure other pwm outputs (i.e. for servos) do not conflict
     virtual uint16_t    get_motor_mask() = 0;
-
+	
 protected:
     // output functions that should be overloaded by child classes
     virtual void        output_armed_stabilizing()=0;
     virtual void        output_armed_not_stabilizing()=0;
+    /*-------------------------------------------------------------------------------------------------------------------*/ 
+    // modified by TRAN TRUNG DUC
+    virtual void 				output_armed_new(double *input) = 0;
+    
+    /*-------------------------------------------------------------------------------------------------------------------*/
     virtual void        output_armed_zero_throttle() { output_min(); }
     virtual void        output_disarmed()=0;
     virtual void        rc_write(uint8_t chan, uint16_t pwm);
@@ -168,5 +177,6 @@ protected:
     // mapping to output channels
     uint8_t             _motor_map[AP_MOTORS_MAX_NUM_MOTORS];
     uint16_t            _motor_map_mask;
+    bool flag_max_speed;
 };
 #endif  // __AP_MOTORS_CLASS_H__

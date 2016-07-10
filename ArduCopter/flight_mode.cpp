@@ -152,19 +152,19 @@ void Copter::update_flight_mode()
             break;
 
         case ALT_HOLD:
-            althold_run();
+            	althold_run();
             break;
 
         case AUTO:
-            auto_run();
+        		auto_run();
             break;
 
         case CIRCLE:
-            circle_run();
+        		circle_run();
             break;
 
         case LOITER:
-            loiter_run();
+        		loiter_run();
             break;
 
         case GUIDED:
@@ -172,11 +172,12 @@ void Copter::update_flight_mode()
             break;
 
         case LAND:
-            land_run();
+
+        		land_run();
             break;
 
         case RTL:
-            rtl_run();
+        		rtl_run();
             break;
 
         case DRIFT:
@@ -199,7 +200,7 @@ void Copter::update_flight_mode()
 
 #if POSHOLD_ENABLED == ENABLED
         case POSHOLD:
-            poshold_run();
+        		poshold_run();
             break;
 #endif
 

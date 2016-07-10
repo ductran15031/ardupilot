@@ -45,7 +45,14 @@ public:
 
     // output - sends commands to the motors
     virtual void        output();
-
+    
+    
+/*-----------------------------------------------------------------------------------------------------------------------*/
+//modified by TRAN TRUNG DUC   -2016 
+	void		new_output(double *input);
+/*-----------------------------------------------------------------------------------------------------------------------*/
+    
+    
     // set_yaw_headroom - set yaw headroom (yaw is given at least this amount of pwm)
     void                set_yaw_headroom(int16_t pwm) { _yaw_headroom = pwm; }
 

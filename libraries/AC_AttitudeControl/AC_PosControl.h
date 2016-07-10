@@ -273,6 +273,11 @@ public:
 
     /// get_pos_xy_kP - returns xy position controller's kP gain
     float get_pos_xy_kP() const { return _p_pos_xy.kP(); }
+/*----------------------------------------------------------------------------------------------------------*/
+// modified by TRAN TRUNG DUC - 2016
+	void getdata(float data[]);
+	int using_new_controller;
+/*----------------------------------------------------------------------------------------------------------*/
 
     /// accessors for reporting
     const Vector3f& get_vel_target() const { return _vel_target; }
@@ -406,5 +411,6 @@ private:
 
     Vector2f    _accel_target_jerk_limited; // acceleration target jerk limited to 100deg/s/s
     LowPassFilterVector2f _accel_target_filter; // acceleration target filter
+    
 };
 #endif	// AC_POSCONTROL_H

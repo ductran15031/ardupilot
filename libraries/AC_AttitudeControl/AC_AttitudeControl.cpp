@@ -716,3 +716,16 @@ float AC_AttitudeControl::max_rate_step_bf_yaw()
     float alpha_remaining = 1-alpha;
     return AC_ATTITUDE_RATE_RP_CONTROLLER_OUT_MAX/((alpha_remaining*alpha_remaining*alpha_remaining*alpha*_pid_rate_yaw.kD())/_dt + _pid_rate_yaw.kP());
 }
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------*/
+//modified by TRAN TRUNG DUC - 2016
+// get angle errors
+void AC_AttitudeControl::getdata(float data[])
+{
+	data[0] =   _att_error_rot_vec_rad.x;                 //roll_bf_eror -rad
+	data[1] =	_att_error_rot_vec_rad.y;				 //pitch_bf_eror -rad
+	data[2] =	_att_error_rot_vec_rad.z;				 //yaw_bf_eror -rad
+	data[7] =   _att_target_euler_rad.x;
+	data[8] =   _att_target_euler_rad.y;
+	data[9] =   _att_target_euler_rad.z;
+}
+

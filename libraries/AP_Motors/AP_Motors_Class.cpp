@@ -113,3 +113,5 @@ uint32_t AP_Motors::rc_map_mask(uint32_t mask) const
     }
     return mask2;
 }
+
+

@@ -212,7 +212,11 @@ public:
 
     // User settable parameters
     static const struct AP_Param::GroupInfo var_info[];
+/*----------------------------------------------------------------------------------------------------------*/
+// modified by TRAN TRUNG DUC - 2016
+	void getdata(float data[]);
 
+/*----------------------------------------------------------------------------------------------------------*/
 protected:
     // Retrieve a rotation matrix from the vehicle body frame to NED earth frame
     void get_rotation_vehicle_to_ned(Matrix3f& m);

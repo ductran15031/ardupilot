@@ -771,4 +771,121 @@
 #define FIRMWARE_STRING THISFIRMWARE " (" GIT_VERSION ")"
 #endif
 
+////-----------------------------------------------------------------------------------------------------
+//modified by TRAN TRUNG DUC - 2016
+// IB Default values
+#ifndef IB_C1_DEFAULT
+  #define IB_C1_DEFAULT         15.0
+#endif
+#ifndef IB_C2_DEFAULT
+  #define IB_C2_DEFAULT         6.0
+#endif
+#ifndef IB_LD1_DEFAULT
+  #define IB_LD1_DEFAULT        0.07
+#endif
+#ifndef IB_C3_DEFAULT
+  #define IB_C3_DEFAULT         15.0
+#endif
+#ifndef IB_C4_DEFAULT
+  #define IB_C4_DEFAULT         6.0
+#endif
+#ifndef IB_LD2_DEFAULT
+  #define IB_LD2_DEFAULT        0.05
+#endif
+#ifndef IB_C5_DEFAULT
+  #define IB_C5_DEFAULT         10.0
+#endif
+#ifndef IB_C6_DEFAULT
+  #define IB_C6_DEFAULT         5.0
+#endif
+#ifndef IB_LD3_DEFAULT
+  #define IB_LD3_DEFAULT        0.01
+#endif
+#ifndef IB_C7_DEFAULT
+  #define IB_C7_DEFAULT         3.5
+#endif
+#ifndef IB_C8_DEFAULT
+  #define IB_C8_DEFAULT         1.5
+#endif
+#ifndef IB_LD4_DEFAULT
+  #define IB_LD4_DEFAULT        0.01
+#endif
+#ifndef IB_C9_DEFAULT
+  #define IB_C9_DEFAULT         10.0
+#endif
+#ifndef IB_C10_DEFAULT
+  #define IB_C10_DEFAULT        1.5
+#endif
+#ifndef IB_LD5_DEFAULT
+  #define IB_LD5_DEFAULT        0.001
+#endif
+#ifndef IB_C11_DEFAULT
+  #define IB_C11_DEFAULT        10.0
+#endif
+#ifndef IB_C12_DEFAULT
+  #define IB_C12_DEFAULT        1.5
+#endif
+#ifndef IB_LD6_DEFAULT
+  #define IB_LD6_DEFAULT        0.001
+#endif
+#ifndef IB_B0_BP_DEFAULT
+  #define IB_B0_BP_DEFAULT      0.0
+#endif
+#ifndef IB_B1_BP_DEFAULT
+  #define IB_B1_BP_DEFAULT      115600
+#endif
+#ifndef IB_B2_BP_DEFAULT
+  #define IB_B2_BP_DEFAULT      0.0
+#endif
+#ifndef IB_A0_BP_DEFAULT
+  #define IB_A0_BP_DEFAULT      1.0
+#endif
+#ifndef IB_A1_BP_DEFAULT
+  #define IB_A1_BP_DEFAULT      1768.0
+#endif
+#ifndef IB_A2_BP_DEFAULT
+  #define IB_A2_BP_DEFAULT      115600.0
+#endif
+#ifndef IB_ZOH_DEFAULT
+  #define IB_ZOH_DEFAULT        0.0
+#endif
+//-----------------------------------------------------------------------------------------------------
+//Modified by TRAN TRUNG DUC 2016
+#ifndef KP_THROTTLE_DEFAULT 													
+ #define KP_THROTTLE_DEFAULT 0.03
+#endif 
+#ifndef KI_THROTTLE_DEFAULT                                                
+ #define KI_THROTTLE_DEFAULT 0.02
+#endif 
+#ifndef KD_THROTTLE_DEFAULT                                                  
+ #define KD_THROTTLE_DEFAULT 0.43
+#endif 
+#ifndef KP_ROLL_DEFAULT                                                    
+ #define KP_ROLL_DEFAULT 0.6119
+#endif 
+#ifndef KI_ROLL_DEFAULT                                                  
+ #define KI_ROLL_DEFAULT 1.914
+#endif
+#ifndef KD_ROLL_DEFAULT                                                    
+ #define KD_ROLL_DEFAULT 0.8834
+#endif
+#ifndef KP_PITCH_DEFAULT                                                 
+ #define KP_PITCH_DEFAULT 0.688
+#endif
+#ifndef KI_PITCH_DEFAULT                                                   
+ #define KI_PITCH_DEFAULT 1.9855
+#endif
+#ifndef KD_PITCH_DEFAULT 													
+ #define KD_PITCH_DEFAULT 0.9188
+#endif
+#ifndef KP_YAW_DEFAULT 
+ #define KP_YAW_DEFAULT 0.34											
+#endif
+#ifndef KI_YAW_DEFAULT 
+ #define KI_YAW_DEFAULT 0.3												
+#endif
+#ifndef KD_YAW_DEFAULT 
+ #define KD_YAW_DEFAULT 0.299										
+#endif
+
 #endif // __ARDUCOPTER_CONFIG_H__

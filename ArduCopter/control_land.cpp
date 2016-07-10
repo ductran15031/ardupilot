@@ -75,11 +75,15 @@ void Copter::land_gps_run()
         // disarm when the landing detector says we've landed
         if (ap.land_complete) {
             init_disarm_motors();
-        }
+            //---------------------------------------------------------------------
+            flag_disarm_motors_land = 1;
+        	//
+		}
 #endif
         return;
     }
-
+	//-----------------------------------------------------------------------------
+	flag_disarm_motors_land = 0;
     // relax loiter target if we might be landed
     if (ap.land_complete_maybe) {
         wp_nav.loiter_soften_for_landing();

@@ -4,6 +4,7 @@
 #define PARAMETERS_H
 
 #include <AP_Common/AP_Common.h>
+#include "Multi_Controller.h"
 
 // Global parameter class.
 //
@@ -192,7 +193,16 @@ public:
         k_param_attitude_control,
         k_param_pos_control,
         k_param_circle_nav,     // 104
-
+		
+		//-----------------------------------------------------------------------------------------------------------------------------------------
+        //modified by TRAN TRUNG DUC-2016
+        //Gain PID for throttle controller
+        k_param_pid_kp_throttle,
+		k_param_pid_ki_throttle,
+		k_param_pid_kd_throttle,
+        k_param_calibration_pwm,
+		k_param_level_pwm,
+        //-----------------------------------------------------------------------------------------------------------------------------------------
         // 110: Telemetry control
         //
         k_param_gcs0 = 110,
@@ -212,6 +222,19 @@ public:
         k_param_takeoff_trigger_dz,
         k_param_gcs3,
         k_param_gcs_pid_mask,    // 126
+        
+        
+        //-----------------------------------------------------------------------------------------------------------------------------------------
+        //modified by TRAN TRUNG DUC-2016
+        k_param_pid_kp_roll, //127
+		k_param_pid_ki_roll,
+		k_param_pid_kd_roll,
+		k_param_pid_kp_pitch,
+		k_param_pid_ki_pitch,
+		k_param_pid_kd_pitch,
+		k_param_pid_kp_yaw,
+		k_param_pid_ki_yaw,
+		//-----------------------------------------------------------------------------------------------------------------------------------------
 
         //
         // 135 : reserved for Solo until features merged with master
@@ -219,9 +242,14 @@ public:
         k_param_rtl_speed_cms = 135,
         k_param_fs_batt_curr_rtl,
         k_param_rtl_cone_slope, // 137
-
-        //
-        // 140: Sensor parameters
+       
+	    //-----------------------------------------------------------------------------------------------------------------------------------------
+		//modified by TRAN TRUNG DUC-2016
+        k_param_pid_kd_yaw,
+        k_param_using_controller,
+        //-----------------------------------------------------------------------------------------------------------------------------------------
+        
+		// 140: Sensor parameters
         //
         k_param_imu = 140, // deprecated - can be deleted
         k_param_battery_monitoring = 141,   // deprecated - can be deleted
@@ -308,8 +336,11 @@ public:
         k_param_flight_mode5,
         k_param_flight_mode6,
         k_param_simple_modes,
-
-        //
+        //-------------------------------------------------------------------------------------------------------------
+		//modified by TRAN TRUNG DUC - 2016
+       
+		//----------------------------------------------------------------------------------------------------------------------
+		//
         // 210: Waypoint data
         //
         k_param_waypoint_mode = 210, // remove
@@ -426,6 +457,26 @@ public:
     AP_Int8         flight_mode5;
     AP_Int8         flight_mode6;
     AP_Int8         simple_modes;
+    
+    //-------------------------------------------------------------------------------------------------------------
+	//modified by TRAN TRUNG DUC - 2016
+	AP_Int8		using_controller; // chosing controller , 0:original PID, 1:new controller PID
+	//new PID
+	AP_Float pid_kp_roll;
+	AP_Float pid_ki_roll;
+	AP_Float pid_kd_roll;
+	AP_Float pid_kp_pitch;
+	AP_Float pid_ki_pitch;
+	AP_Float pid_kd_pitch;
+	AP_Float pid_kp_yaw;
+	AP_Float pid_ki_yaw;
+	AP_Float pid_kd_yaw;
+	AP_Float pid_kp_throttle;
+	AP_Float pid_ki_throttle;
+	AP_Float pid_kd_throttle;
+	AP_Int16 calibration_pwm;
+	AP_Int16 level_pwm;
+	//-------------------------------------------------------------------------------------------------------------
 
     // Misc
     //

@@ -59,3 +59,6 @@ LIBRARIES += AC_PrecLand
 LIBRARIES += AP_IRLock
 LIBRARIES += AC_InputManager
 LIBRARIES += AP_ADSB
+LIBRARIES +=PIDController
+LIBRARIES += IB_Controller_TEMP
+LIBRARIES += MotorSpeed

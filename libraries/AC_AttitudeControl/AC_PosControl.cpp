@@ -161,7 +161,8 @@ void AC_PosControl::set_alt_target_from_climb_rate(float climb_rate_cms, float d
 {
     // adjust desired alt if motors have not hit their limits
     // To-Do: add check of _limit.pos_down?
-    if ((climb_rate_cms<0 && (!_motors.limit.throttle_lower || force_descend)) || (climb_rate_cms>0 && !_motors.limit.throttle_upper && !_limit.pos_up)) {
+    
+	if ((climb_rate_cms<0 && (!_motors.limit.throttle_lower || force_descend)) || (climb_rate_cms>0 && !_motors.limit.throttle_upper && !_limit.pos_up)) {
         _pos_target.z += climb_rate_cms * dt;
     }
 
@@ -208,7 +209,10 @@ void AC_PosControl::set_alt_target_from_climb_rate_ff(float climb_rate_cms, floa
 
     // adjust desired alt if motors have not hit their limits
     // To-Do: add check of _limit.pos_down?
-    if ((_vel_desired.z<0 && (!_motors.limit.throttle_lower || force_descend)) || (_vel_desired.z>0 && !_motors.limit.throttle_upper && !_limit.pos_up)) {
+    
+    //------------------------------------------------------------------------------------------------------------------------------------------------
+    //modified TRAN TRUNG DUC
+    if ((_vel_desired.z<0 && (!_motors.limit.throttle_lower || force_descend)) || (_vel_desired.z>0 && !_motors.limit.throttle_upper && !_limit.pos_up)||using_new_controller) {
         _pos_target.z += _vel_desired.z * dt;
     }
 
@@ -1002,3 +1006,21 @@ float AC_PosControl::calc_leash_length(float speed_cms, float accel_cms, float k
 
     return leash_length;
 }
+/*----------------------------------------------------------------------------------------------------------*/
+// modified by TRAN TRUNG DUC - 2016
+//get attitude error
+
+void AC_PosControl::getdata(float data[])
+{
+	data[3] =   _pos_error.z;                 // altitude_error
+	Vector3f curr_pos = _inav.get_position();
+	data[4] = curr_pos.x;
+	data[5] = curr_pos.y;
+	data[6] = curr_pos.z;
+	data[10] = _pos_target.z;
+	using_new_controller = true;
+
+
+}
+	
+/*----------------------------------------------------------------------------------------------------------*/

@@ -27,7 +27,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Header includes
 ////////////////////////////////////////////////////////////////////////////////
-
+#include<assert.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -107,14 +107,21 @@
 #endif
 #include <AC_InputManager/AC_InputManager.h>        // Pilot input handling library
 #include <AC_InputManager/AC_InputManager_Heli.h>   // Heli specific pilot input handling library
-
-
+//-----------------------------------------------------------------------------------------------------------------------------------------
+//modified by TRAN TRUNG DUC-2016
+#include "MotorSpeed/MotorSpeed.h"
+#include "PIDController/PIDController.h"
+#include "IB_Controller_TEMP/IB_Controller.h"
+//-----------------------------------------------------------------------------------------------------------------------------------------
 // AP_HAL to Arduino compatibility layer
 // Configuration
 #include "defines.h"
 #include "config.h"
 #include "config_channels.h"
-
+//-----------------------------------------------------------------------------------------------------------------------------------------
+//modified by TRAN TRUNG DUC-2016
+#include "Multi_Controller.h"
+//-----------------------------------------------------------------------------------------------------------------------------------------
 // Local modules
 #include "Parameters.h"
 
@@ -557,7 +564,26 @@ private:
         float takeoff_alt_cm;
     } gndeffect_state;
 #endif // GNDEFFECT_COMPENSATION == ENABLED
+/*----------------------------------------------------------------------------------------------------------------------------*/
 
+		int flag_disarm_motors_land = 0;
+		float data[11];
+	
+		/* 	0 roll_error;
+			1 pitch_error;
+			2 yaw_error;
+			3 alt_error;
+			4 x current
+			5 y current
+			6 z current
+			7 att_target_euler_rad.x
+			8 att_target_euler_rad.y
+			9 att_target_euler_rad.z
+			10 att_altitude
+			11
+		
+		*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
     static const AP_Scheduler::Task scheduler_tasks[];
     static const AP_Param::Info var_info[];
     static const struct LogStructure log_structure[];
@@ -1015,7 +1041,22 @@ private:
     void init_capabilities(void);
     void dataflash_periodic(void);
     void accel_cal_update(void);
-
+/*----------------------------------------------------------------------------------------------------------------------------*/
+	//modified by Tran Trung Duc - 2016
+	void init_controller();
+	GAREAL* PID_calculate();
+	GAREAL* Simple_IB_calculate();
+	void new_controller_run();
+	void get_all_input();
+	void new_motors_output(GAREAL *output_value);
+	//void new_althold_run();
+	//void new_auto_run();
+	//void new_circle_run();
+	//void new_loiter_run();
+	//void new_land_run();
+	//void new_rtl_run();
+	//void new_poshold_run();
+/*----------------------------------------------------------------------------------------------------------------------------*/	
 public:
     void mavlink_delay_cb();
     void failsafe_check();
@@ -1042,6 +1083,8 @@ public:
     int8_t test_sonar(uint8_t argc, const Menu::arg *argv);
 
     int8_t reboot_board(uint8_t argc, const Menu::arg *argv);
+    
+
 };
 
 #define MENU_FUNC(func) FUNCTOR_BIND(&copter, &Copter::func, int8_t, uint8_t, const Menu::arg *)

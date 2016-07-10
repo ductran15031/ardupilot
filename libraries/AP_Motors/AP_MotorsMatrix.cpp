@@ -125,7 +125,7 @@ void AP_MotorsMatrix::output_armed_not_stabilizing()
     int16_t out_min_pwm = _throttle_radio_min + _min_throttle;      // minimum pwm value we can send to the motors
     int16_t out_max_pwm = _throttle_radio_max;                      // maximum pwm value we can send to the motors
 
-    // initialize limits flags
+	// initialize limits flags
     limit.roll_pitch = true;
     limit.yaw = true;
     limit.throttle_lower = false;
@@ -168,6 +168,7 @@ void AP_MotorsMatrix::output_armed_not_stabilizing()
         }
     }
     hal.rcout->push();
+
 }
 
 // output_armed - sends commands to the motors
@@ -186,6 +187,7 @@ void AP_MotorsMatrix::output_armed_stabilizing()
     int16_t out_best_thr_pwm;                                       // the is the best throttle we can come up which provides good control without climbing
     float rpy_scale = 1.0;                                          // this is used to scale the roll, pitch and yaw to fit within the motor limits
 
+    
     int16_t rpy_out[AP_MOTORS_MAX_NUM_MOTORS]; // buffer so we don't have to multiply coefficients multiple times.
     int16_t motor_out[AP_MOTORS_MAX_NUM_MOTORS];    // final outputs sent to the motors
 
@@ -368,6 +370,92 @@ void AP_MotorsMatrix::output_armed_stabilizing()
     hal.rcout->push();
 }
 
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+//modified by TRAN TRUNG DUC - 2016
+void AP_MotorsMatrix::output_armed_new(double *input)
+{
+    //Calculate output
+    float max_rotate_speed = 242.0;
+    float balance_rotate_speed = 152.64;
+    int16_t level = level_pwm;
+    int16_t out_min_pwm = 1081; //_rc_throttle.radio_min + _min_throttle; // minimum pwm value we can send to the motors
+    int16_t out_max_pwm = 1700; //_rc_throttle.radio_max;                 // maximum pwm value we can send to the motors
+    int16_t out_mid_pwm = (out_min_pwm + out_max_pwm)/2.0;                // mid pwm value we can send to the motors
+    flag_max_speed = false;
+    int16_t output_signal[4];
+
+    //Linearising the output value base on a simulation
+    //radio control signal
+    /*
+    for (int i = 0; i<4; i++)
+    {
+        if  (input[i] > balance_rotate_speed)
+        {
+            output_signal[i] = (int16_t) (level + (out_max_pwm - level) * (input[i] - balance_rotate_speed) / (max_rotate_speed - 152.64));
+        }
+        else if (input[i] != 0)
+        {
+            output_signal[i] = (int16_t) (out_min_pwm + (level - out_min_pwm) / (balance_rotate_speed - 0) * (input[i]));
+        }
+                
+        if (output_signal[i] >= out_max_pwm)
+        {
+            output_signal[i] = out_max_pwm;
+            flag_max_speed = true;
+        }
+        else if (output_signal[i] == 0) {
+            output_signal[i] = (int16_t) out_min_pwm + 10;
+        }
+    }
+    // send output to each motor
+    // MOTORS !!!!!!!!!!!!
+    hal.rcout->cork();
+    for(int i=0; i<AP_MOTORS_MAX_NUM_MOTORS; i++ ) {
+        if( motor_enabled[i] ) {
+            rc_write(i, output_signal[i]);
+        }
+    }
+    hal.rcout->push();*/
+    if(calibration == 0)
+    {
+	    for (int i = 0; i<4; i++)
+	    {
+	        if  (input[i] > balance_rotate_speed)
+	        {
+	             output_signal[i] = (int16_t) (level + (out_max_pwm - level) * (input[i] - balance_rotate_speed) / (max_rotate_speed - 152.64));
+	        }
+	        else if (input[i] != 0)
+	        {
+	             output_signal[i] = (int16_t) (out_min_pwm + (level - out_min_pwm) / (balance_rotate_speed - 0) * (input[i]));
+	        }
+	                
+	        if ( output_signal[i] >= out_max_pwm)
+	        {
+	             output_signal[i] = out_max_pwm;
+	        }
+	        else if ( output_signal[i] == 0) {
+	             output_signal[i] = (int16_t) out_min_pwm + 10;
+	        }
+	    }
+	}
+	else
+	{
+	 	output_signal[0] = input[0];
+		output_signal[1] = input[1];
+		output_signal[2] = input[2];
+		output_signal[3] = input[3];
+	}
+    // send output to each motor
+    // MOTORS !!!!!!!!!!!!
+    hal.rcout->cork();
+    for(int i=0; i<AP_MOTORS_MAX_NUM_MOTORS; i++ ) {
+        if( motor_enabled[i] ) {
+            rc_write(i,  output_signal[i]);
+        }
+    }
+    hal.rcout->push();
+}
+/*-----------------------------------------------------------------------------------------------------------------------------*/
 // output_disarmed - sends commands to the motors
 void AP_MotorsMatrix::output_disarmed()
 {

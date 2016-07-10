@@ -162,7 +162,39 @@ void AP_MotorsMulticopter::output()
         output_disarmed();
     }
 };
+/*--------------------------------------------------------------------------------------------------------------------------*/
+//modified by TRAN_TRUNG_DUC - 2016
+/*
+    Gets passed an array of omegas
+    4 since it's a quadcopter.
+*/
+// 
+void AP_MotorsMulticopter::new_output(double *input)
+{
+     // update throttle filter
+    update_throttle_filter();
 
+    // update max throttle
+    update_max_throttle();
+
+    // update battery resistance
+    update_battery_resistance();
+
+    // calc filtered battery voltage and lift_max
+    update_lift_max_from_batt_voltage();
+
+    // move throttle_low_comp towards desired throttle low comp
+    update_throttle_thr_mix();
+    
+    if (_flags.armed ) {    
+     	// difined in AP_MotorsMatrix.cpp
+        output_armed_new(input);
+    }else{
+    	_multicopter_flags.slow_start_low_end = true;
+        output_disarmed();
+    }
+}
+/*--------------------------------------------------------------------------------------------------------------------------*/
 // update the throttle input filter
 void AP_MotorsMulticopter::update_throttle_filter()
 {

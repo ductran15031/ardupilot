@@ -161,8 +161,11 @@ const AP_Scheduler::Task Copter::scheduler_tasks[] = {
     SCHED_TASK(userhook_SuperSlowLoop, 1,   75),
 #endif
 };
+/*-------------------------------------------------------------------------------------------------------------------------------*/
+//modified by TRAN TRUNG DUC - 2016
+ float flag[7];
 
-
+/*-------------------------------------------------------------------------------------------------------------------------------*/
 void Copter::setup() 
 {
     cliSerial = hal.console;
@@ -181,8 +184,11 @@ void Copter::setup()
     // setup initial performance counters
     perf_info_reset();
     fast_loopTimer = AP_HAL::micros();
-}
+/*----------------------------------------------------------------------------------------------------------------------*/
 
+    	init_controller();
+}
+/*----------------------------------------------------------------------------------------------------------------------*/
 /*
   if the compass is enabled then try to accumulate a reading
  */
@@ -253,21 +259,41 @@ void Copter::loop()
 // Main loop - 400hz
 void Copter::fast_loop()
 {
-
+	
     // IMU DCM Algorithm
     // --------------------
     read_AHRS();
+   
+/*----------------------------------------------------------------------------------------------------------------------*/
+//modified by TRAN TRUNG DUC - 2016
 
+
+	if(g.using_controller == Original_PID_Controller  || control_mode == ACRO ||
+	 						control_mode == AUTOTUNE  || control_mode == DRIFT|| 
+	 						control_mode == SPORT     || control_mode == FLIP )//||
+	 						//control_mode == STABILIZE )/// || control_mode==GUIDED)
+	{
     // run low level rate controllers that only require IMU data
-    attitude_control.rate_controller_run();
+    	attitude_control.rate_controller_run();
     
-#if FRAME_CONFIG == HELI_FRAME
-    update_heli_control_dynamics();
-#endif //HELI_FRAME
+	#if FRAME_CONFIG == HELI_FRAME
+    	update_heli_control_dynamics();
+	#endif //HELI_FRAME
 
-    // send outputs to the motors library
-    motors_output();
+    	// send outputs to the motors library
+    	motors_output();
+    	pos_control.using_new_controller = false;
+    }
+    else
+    {
+    	pos_control.using_new_controller = true;
+    	//get errors and targets(input), 
+    	get_all_input();
+    	//calculte outputs,run the main controller (PID, IB... whatever you want),send out put to the motors
+    	new_controller_run();
 
+	}
+/*----------------------------------------------------------------------------------------------------------------------*/
     // Inertial Nav
     // --------------------
     read_inertia();
@@ -443,7 +469,7 @@ void Copter::dataflash_periodic(void)
 
 // three_hz_loop - 3.3hz loop
 void Copter::three_hz_loop()
-{
+{	
     // check if we've lost contact with the ground station
     failsafe_gcs_check();
 
@@ -465,6 +491,9 @@ void Copter::three_hz_loop()
 // one_hz_loop - runs at 1Hz
 void Copter::one_hz_loop()
 {
+	//test -------------------------------------------------------------
+	printf("%5.3f|%5.3f|%5.3f|%5.3f| \n\n",data[0],data[1],data[2],data[3]);
+	//hal.console->printf("hehehe"); 
     if (should_log(MASK_LOG_ANY)) {
         Log_Write_Data(DATA_AP_STATE, ap.value);
     }
