@@ -304,7 +304,7 @@ void Copter::new_motors_output(GAREAL *output_value) {
     		motors.calibration= 0;
     		motors.level_pwm = g.level_pwm;
 			motors.new_output(motor_omega);
-		}	
+		//}	
 		break;
 		case Calibration: 
 		motor_omega[0]= g.calibration_pwm;
