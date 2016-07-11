@@ -568,7 +568,6 @@ private:
 
 		int flag_disarm_motors_land = 0;
 		float data[11];
-	
 		/* 	0 roll_error;
 			1 pitch_error;
 			2 yaw_error;

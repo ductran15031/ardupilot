@@ -209,10 +209,7 @@ void AC_PosControl::set_alt_target_from_climb_rate_ff(float climb_rate_cms, floa
 
     // adjust desired alt if motors have not hit their limits
     // To-Do: add check of _limit.pos_down?
-    
-    //------------------------------------------------------------------------------------------------------------------------------------------------
-    //modified TRAN TRUNG DUC
-    if ((_vel_desired.z<0 && (!_motors.limit.throttle_lower || force_descend)) || (_vel_desired.z>0 && !_motors.limit.throttle_upper && !_limit.pos_up)||using_new_controller) {
+    if ((_vel_desired.z<0 && (!_motors.limit.throttle_lower || force_descend)) || (_vel_desired.z>0 && !_motors.limit.throttle_upper && !_limit.pos_up)) {
         _pos_target.z += _vel_desired.z * dt;
     }
 
@@ -1012,7 +1009,8 @@ float AC_PosControl::calc_leash_length(float speed_cms, float accel_cms, float k
 
 void AC_PosControl::getdata(float data[])
 {
-	data[3] =   _pos_error.z;                 // altitude_error
+	//data[3] =   _pos_error.z;                 // altitude_error
+	data[3] = get_alt_error();
 	Vector3f curr_pos = _inav.get_position();
 	data[4] = curr_pos.x;
 	data[5] = curr_pos.y;

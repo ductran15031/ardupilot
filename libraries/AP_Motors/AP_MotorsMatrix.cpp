@@ -386,36 +386,7 @@ void AP_MotorsMatrix::output_armed_new(double *input)
 
     //Linearising the output value base on a simulation
     //radio control signal
-    /*
-    for (int i = 0; i<4; i++)
-    {
-        if  (input[i] > balance_rotate_speed)
-        {
-            output_signal[i] = (int16_t) (level + (out_max_pwm - level) * (input[i] - balance_rotate_speed) / (max_rotate_speed - 152.64));
-        }
-        else if (input[i] != 0)
-        {
-            output_signal[i] = (int16_t) (out_min_pwm + (level - out_min_pwm) / (balance_rotate_speed - 0) * (input[i]));
-        }
-                
-        if (output_signal[i] >= out_max_pwm)
-        {
-            output_signal[i] = out_max_pwm;
-            flag_max_speed = true;
-        }
-        else if (output_signal[i] == 0) {
-            output_signal[i] = (int16_t) out_min_pwm + 10;
-        }
-    }
-    // send output to each motor
-    // MOTORS !!!!!!!!!!!!
-    hal.rcout->cork();
-    for(int i=0; i<AP_MOTORS_MAX_NUM_MOTORS; i++ ) {
-        if( motor_enabled[i] ) {
-            rc_write(i, output_signal[i]);
-        }
-    }
-    hal.rcout->push();*/
+
     if(calibration == 0)
     {
 	    for (int i = 0; i<4; i++)

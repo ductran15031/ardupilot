@@ -252,7 +252,8 @@ void Copter::new_motors_output(GAREAL *output_value) {
 	float lsin45 = l*sin(PI/4);
     switch (g.using_controller) 
 	{
-		/*case New_PID_Controller: 
+    	//frame X
+		case New_PID_Controller:
 		motor_omega[0] = ((output_value[0]-(output_value[1]+output_value[2])/lsin45)/b-output_value[3]/d)/4.0;
 		motor_omega[1] = ((output_value[0]+(output_value[1]+output_value[2])/lsin45)/b-output_value[3]/d)/4.0;
 		motor_omega[2] = ((output_value[0]+(output_value[1]-output_value[2])/lsin45)/b+output_value[3]/d)/4.0;
@@ -261,9 +262,9 @@ void Copter::new_motors_output(GAREAL *output_value) {
 		motor_omega[1] = (motor_omega[1]<0)?0:sqrt(motor_omega[1]);   
 		motor_omega[2] = (motor_omega[2]<0)?0:sqrt(motor_omega[2]);   
 		motor_omega[3] = (motor_omega[3]<0)?0:sqrt(motor_omega[3]);
-		*/
+
 		//frame +
-		case New_PID_Controller: 
+		/*case New_PID_Controller:
 		{
 			io_motors.U1 = output_value[0]; //THRUST
     		io_motors.U2 = output_value[1]; //MOMENT
@@ -275,7 +276,7 @@ void Copter::new_motors_output(GAREAL *output_value) {
 			motor_omega[0] = io_motors.omgs2[1];
 			motor_omega[2] = io_motors.omgs2[2];
 			motor_omega[1] = io_motors.omgs2[3];
-		}
+		}*/
 		for (uint8_t i = 0; i<4; i++) 
 		{
 			if (motor_omega[i] <= 0.0) {
@@ -287,7 +288,7 @@ void Copter::new_motors_output(GAREAL *output_value) {
 			}
 		}
 
-	/*	if (ap.motor_test) 
+		if (ap.motor_test)
 		{
        		motor_test_output();
     	} 
@@ -300,11 +301,11 @@ void Copter::new_motors_output(GAREAL *output_value) {
         	// is not used. Interlock enabled means motors run, so we must
         	// invert motor_emergency_stop status for motors to run.
         		motors.set_interlock(!ap.motor_emergency_stop);
-    		}*/
+    		}
     		motors.calibration= 0;
     		motors.level_pwm = g.level_pwm;
 			motors.new_output(motor_omega);
-		//}	
+		}
 		break;
 		case Calibration: 
 		motor_omega[0]= g.calibration_pwm;
